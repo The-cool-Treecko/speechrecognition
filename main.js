@@ -4,6 +4,15 @@ var recognition = new speechRecognition();
 
 var textbox = document.getElementById("voice_output");
 
+var camera = document.getElementById("camera");
+
+Webcam.set({
+    width: 600,
+    height: 400,
+    image_format: 'png',
+    png_quality: 90
+});
+
 function start2(){
     textbox.innerHTML = "";
     console.log("started")
@@ -12,5 +21,16 @@ function start2(){
 
 recognition.onresult = function(event){
     console.log(event);
-    textbox.innerHTML = event.results[0][0].transcript;
-} 
+    content = event.results[0][0].transcript; 
+    textbox.innerHTML = content;
+    speak()
+    Webcam.attach(camera);
+}
+
+function speak(){
+    synth = window.speechSynthesis;
+    speech = textbox.value;
+    console.log(speech);
+    utterthis = new SpeechSynthesisUtterance(speech);
+    synth.speak(utterthis);
+}
